@@ -11,6 +11,7 @@ export function useLocalStorage<T>(
                 return JSON.parse(json) as T;
             }
         } catch {
+            //skip
         }
         return initialValue;
     });
