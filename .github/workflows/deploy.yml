@@ -13,6 +13,18 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Show current directory
+        run: pwd
+
+      - name: List files
+        run: ls -la
+
+      - name: Show .firebaserc content
+        run: cat .firebaserc
+
+      - name: Show firebase.json content
+        run: cat firebase.json
+
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
