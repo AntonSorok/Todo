@@ -13,18 +13,6 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Show current directory
-        run: pwd
-
-      - name: List files
-        run: ls -la
-
-      - name: Show .firebaserc content
-        run: cat .firebaserc
-
-      - name: Show firebase.json content
-        run: cat firebase.json
-
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
@@ -39,9 +27,16 @@ jobs:
       - name: Install Firebase CLI
         run: npm install -g firebase-tools
 
+      - name: Create Google credentials file
+        run: echo "${{ secrets.GOOGLE_APPLICATION_CREDENTIALS_JSON }}"> ${{ runner.temp }}/gcloud-key.json
+
+      - name: Authenticate Firebase CLI
+        run: gcloud auth activate-service-account --key-file=${{ runner.temp }}/gcloud-key.json
+
+      - name: Set GOOGLE_APPLICATION_CREDENTIALS env var
+        run: echo "GOOGLE_APPLICATION_CREADENTIALS=${{ runner.temp }}/gcloud-key.json" >> $GITHUB_ENV
+
       - name: Deploy to Firebase Hosting
-        env:
-          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
         run: firebase deploy --only hosting --non-interactive
 
 
