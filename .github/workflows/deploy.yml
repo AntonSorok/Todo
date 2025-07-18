@@ -37,6 +37,8 @@ jobs:
         run: echo "GOOGLE_APPLICATION_CREADENTIALS=${{ runner.temp }}/gcloud-key.json" >> $GITHUB_ENV
 
       - name: Deploy to Firebase Hosting
+        env:
+          GOOGLE_APPLICATION_CREDENTIALS: ${{ runner.temp }}/gcloud-key.json
         run: firebase deploy --only hosting --non-interactive
 
 
