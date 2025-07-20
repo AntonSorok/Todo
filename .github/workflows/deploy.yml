@@ -29,6 +29,10 @@ jobs:
         env:
           GOOGLE_APPLICATION_CREDENTIALS_JSON: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS_JSON }}
 
+      - name: Decode service account JSON
+        run: |
+          echo "${{ secrets.GOOGLE_APPLICATION_CREDENTIALS_JSON }}" | base64 -d > ${{ runner.temp }}/gcloud-key.json
+
       - name: Debug - Print gcloud-key.json content (cat)
         run: cat gcloud-key.json
 
