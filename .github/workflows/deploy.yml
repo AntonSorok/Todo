@@ -29,6 +29,12 @@ jobs:
         env:
           GOOGLE_APPLICATION_CREDENTIALS_JSON: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS_JSON }}
 
+      - name: Debug - Print gcloud-key.json content (cat)
+        run: cat gcloud-key.json
+
+      - name: Debug - Print gcloud-key.json content (hexdump -C)
+        run: hexdump -C gcloud-key.json
+
       - name: Set GOOGLE_APPLICATION_CREDENTIALS
         run: echo "GOOGLE_APPLICATION_CREDENTIALS=$(pwd)/gcloud-key.json" >> $GITHUB_ENV
 
