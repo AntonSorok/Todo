@@ -5,6 +5,7 @@ export interface Todo {
     text: string;
     status: TodoStatus;
     createAt: number;
+    userId: string
 }
 
 export type Filter = 'all' | TodoStatus

@@ -7,11 +7,12 @@ describe('todoReducer', () => {
         todos: [],
         filter: 'all'
     };
-
+    const user = auth.currentUser
     const sampleTodo: Omit<Todo, 'id'> = {
         text: 'Test task',
         status: 'todo',
-        createAt: 123
+        createAt: 123,
+        userId: user.uid
     };
 
     it('должен добавлять новую задачу (ADD)', () => {

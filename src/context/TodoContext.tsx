@@ -2,7 +2,7 @@ import React, {createContext, useContext, useReducer, useEffect} from "react";
 import type {ReactNode} from "react";
 import type {Filter, Todo} from '../types/todo'
 import {type TodoAction, TodoActionType} from "../utils/constants.ts";
-import {todosCollection, db} from "../firebase.ts";
+import {todosCollection, db, auth} from "../firebase.ts";
 import {
     addDoc,
     deleteDoc,
@@ -10,10 +10,17 @@ import {
     onSnapshot,
     updateDoc,
 } from 'firebase/firestore';
+import {query, where} from 'firebase/firestore'
 
 export interface TodoState {
     todos: Todo[];
     filter: Filter;
+}
+
+interface TodoContextType {
+    state: TodoState;
+    dispatch: React.Dispatch<TodoAction>;
+    addTodo: (text: string) => Promise<void>
 }
 
 const initialState: TodoState = {
@@ -21,15 +28,17 @@ const initialState: TodoState = {
     filter: 'all',
 };
 
-const TodoContext = createContext<{
-    state: TodoState;
-    dispatch: React.Dispatch<TodoAction>;
-}>({state: initialState, dispatch: () => null})
+const TodoContext = createContext<TodoContextType | undefined>(undefined)
+
+// const TodoContext = createContext<{
+//     state: TodoState;
+//     dispatch: React.Dispatch<TodoAction>;
+// }>({state: initialState, dispatch: () => null})
 
 export const todoReducer = (state: TodoState, action: TodoAction): TodoState => {
     switch (action.type) {
         case TodoActionType.SET_ALL:
-            return {...state, todos: [action.payload]};
+            return {...state, todos: action.payload};
         case TodoActionType.ADD:
             return {...state, todos: [action.payload, ...state.todos]};
         case TodoActionType.REMOVE:
@@ -61,10 +70,15 @@ export const TodoProvider = ({children}: { children: ReactNode }) => {
     const [state, dispatch] = useReducer(todoReducer, initialState);
 
     useEffect(() => {
-        const unsubscribe = onSnapshot(todosCollection, snapshot => {
+        if (!auth.currentUser) return;
+        console.log('Current user UID:', auth.currentUser.uid);
+
+        const q = query(todosCollection, where('userId', '==', auth.currentUser.uid))
+
+        const unsubscribe = onSnapshot(q, (snapshot) => {
             const data: Todo[] = [];
             snapshot.forEach(doc => {
-                data.push({id: doc.id, ...(doc.data() as Omit<Todo, 'id'>)});
+                data.push({id: doc.id, ...(doc.data() as Omit<Todo, 'id'>)})
             });
             dispatch({type: TodoActionType.SET_ALL, payload: data})
         });
@@ -73,10 +87,13 @@ export const TodoProvider = ({children}: { children: ReactNode }) => {
 
 
     const addTodo = async (text: string) => {
+        const user = auth.currentUser
+        if (!user) return
         const newTodo: Omit<Todo, 'id'> = {
             text,
             status: 'todo',
             createAt: Date.now(),
+            userId: user.uid
         };
         await addDoc(todosCollection, newTodo)
     };
@@ -108,10 +125,16 @@ export const TodoProvider = ({children}: { children: ReactNode }) => {
 
 
     return (
-        <TodoContext.Provider value={{state, dispatch: enhancedDispatch}}>
+        <TodoContext.Provider value={{state, dispatch: enhancedDispatch, addTodo}}>
             {children}
         </TodoContext.Provider>
     );
 };
 
-export const useTodo = () => useContext(TodoContext)
+export const useTodo = () => {
+    const context = useContext(TodoContext)
+    if (!context) {
+        throw new Error('useTodo must be used within TodoProvider')
+    }
+    return context
+}

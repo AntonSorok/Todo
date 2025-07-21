@@ -1,40 +1,34 @@
-import React, {useState} from 'react'
+import {useAuth} from "./context/AuthContext.tsx";
+import AuthForm from './components/AuthForm.tsx'
 import {TodoList} from "./components/TodoList.tsx";
 import {TodoFilter} from "./components/TodoFilters.tsx";
-import {useTodo} from "./context/TodoContext.tsx";
-import {TodoActionType} from "./utils/constants.ts";
+import LogoutButton from "./components/LogoutButton.tsx";
+import {AddTodoForm} from "./components/AddTodoForm.tsx";
+import {TodoProvider} from "./context/TodoContext.tsx";
+
 
 function App() {
-    const [text, setText] = useState('');
-    const {dispatch} = useTodo();
-    const handleAdd = (e: React.FormEvent) => {
-        e.preventDefault();
-        dispatch({type: TodoActionType.ADD, payload: text.trim()});
-        setText('');
-    };
-    return (
-        <div className={`max-w-md mx-auto mt-8 p-4 border roudned`}>
-            <h1 className={`text-2xl font-bold mb-4`}>Todo 'Pro'</h1>
-            <form
-                onSubmit={handleAdd}
-                className={`flex mb-4`}>
-                <input
-                    type="text"
-                    value={text}
-                    onChange={e => setText(e.currentTarget.value)}
-                    className={`flex-1 border rounded-l px-2 py-1`}
-                    placeholder={`Новая задача...`}
-                />
-                <button
-                    type='submit'
-                    className={`px-4 py-1 border rounded-r bg-green-300 hover:bg-green-400`}
-                >Добавить задачу
-                </button>
-            </form>
+    const {currentUser, loading} = useAuth()
 
-            <TodoFilter/>
-            <TodoList/>
-        </div>
+    if (loading) {
+        return <div className={`text-center mt-8`}>Загрузка...</div>
+    }
+
+    if (!currentUser) {
+        return <AuthForm/>
+    }
+
+    return (
+        <TodoProvider>
+            <div className={`max-w-md mx-auto mt-8 p-4 border roudned`}>
+                <LogoutButton/>
+                <h1 className={`text-2xl font-bold mb-4`}>Todo 'Pro'</h1>
+                <AddTodoForm/>
+                <TodoFilter/>
+                <TodoList/>
+            </div>
+        </TodoProvider>
+
     );
 }
 
