@@ -12,7 +12,12 @@ describe('todoReducer', () => {
         text: 'Test task',
         status: 'todo',
         createAt: 123,
-        userId: 'test-user-uid'
+        userId: 'test-user-uid',
+        labels: [],
+        description: '',
+        categoryId: '',
+        deadline: null,
+        labelsColor: ''
     };
 
     it('должен добавлять новую задачу (ADD)', () => {
