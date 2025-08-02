@@ -5,7 +5,25 @@ export interface Todo {
     text: string;
     status: TodoStatus;
     createAt: number;
-    userId: string
+    userId: string;
+    labels: string[];
+    description: string;
+    categoryId: string;
+    deadline: number | null;
+    labelsColor: string;
+}
+
+export interface Label {
+    id: string;
+    name: string;
+    color: string;
+    userId: string;
+}
+
+export interface Category {
+    id: string;
+    name: string;
+    userId: string;
 }
 
 export type Filter = 'all' | TodoStatus

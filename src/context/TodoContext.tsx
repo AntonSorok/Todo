@@ -20,7 +20,20 @@ export interface TodoState {
 interface TodoContextType {
     state: TodoState;
     dispatch: React.Dispatch<TodoAction>;
-    addTodo: (text: string) => Promise<void>
+    addTodo: (
+        text: string,
+        options?: {
+            categoryId?: string;
+            description?: string;
+            labels?: string[];
+            deadline?: number | null;
+            labelsColor?: string;
+        }
+    ) => Promise<void>;
+    updateTodo: (
+        id: string,
+        updateFields: Partial<Omit<Todo, 'id'>>
+    ) => Promise<void>;
 }
 
 const initialState: TodoState = {
@@ -86,17 +99,37 @@ export const TodoProvider = ({children}: { children: ReactNode }) => {
     }, []);
 
 
-    const addTodo = async (text: string) => {
+    const addTodo = async (
+        text: string,
+        options?: {
+            categoryId?: string;
+            labels?: string[];
+            description?: string;
+            deadline?: number | null;
+            labelsColor?: string;
+        }
+    ) => {
         const user = auth.currentUser
         if (!user) return
         const newTodo: Omit<Todo, 'id'> = {
             text,
             status: 'todo',
             createAt: Date.now(),
-            userId: user.uid
+            userId: user.uid,
+            categoryId: options?.categoryId ?? '',
+            description: options?.description ?? '',
+            labels: options?.labels ?? [],
+            deadline: options?.deadline ?? null,
+            labelsColor: options?.labelsColor ?? '',
         };
+
         await addDoc(todosCollection, newTodo)
     };
+
+    const updateTodo = async (id: string, updateFields: Partial<Omit<Todo, 'id'>>) => {
+        await updateDoc(doc(db, 'todos', id), updateFields)
+    }
+
     const removeTodo = async (id: string) => {
         await deleteDoc(doc(db, 'todos', id))
     };
@@ -125,7 +158,7 @@ export const TodoProvider = ({children}: { children: ReactNode }) => {
 
 
     return (
-        <TodoContext.Provider value={{state, dispatch: enhancedDispatch, addTodo}}>
+        <TodoContext.Provider value={{state, dispatch: enhancedDispatch, addTodo, updateTodo}}>
             {children}
         </TodoContext.Provider>
     );
