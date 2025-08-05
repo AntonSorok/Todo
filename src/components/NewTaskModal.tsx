@@ -130,7 +130,7 @@ export const NewTaskModal = ({onClose, todo}: Props) => {
                             </span>)}
                             <select
                                 className={`bg-white rounded-xl border p-2 text-sm`}
-                                value={todo?.status || 'todo'}
+                                value={status || 'todo'}
                                 onChange={(e) => {
                                     setStatus(e.target.value as TodoStatus)
                                 }}
