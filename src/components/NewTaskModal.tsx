@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react'
 import {useTodo} from "../context/TodoContext.tsx";
 import {useAuth} from "../context/AuthContext.tsx";
-import {extractLabelsFromDescription} from '../utils/extractLabels'
+import {extractLabelsFromDescription, removeLabelsFromDescription} from '../utils/extractLabels'
 import type {Todo, TodoStatus} from "../types/todo.ts";
 import {getDeadlineCountdown} from '../utils/date.ts'
 
@@ -23,8 +23,11 @@ export const NewTaskModal = ({onClose, todo}: Props) => {
 
     useEffect(() => {
         if (todo) {
+            const labelsStr = todo.labels?.map(label => `#${label}`).join('') || '';
+            const fullDescription = (todo.description || '') + (labelsStr ? '' + labelsStr : '')
+
             setTitle(todo.text);
-            setDescription(todo.description || '')
+            setDescription(fullDescription.trim())
             setCategoryId(todo.categoryId || '');
             setDeadline(todo.deadline ? new Date(todo.deadline).toISOString().split('T')[0] : '')
             setStatus(todo.status || 'todo')
@@ -40,15 +43,17 @@ export const NewTaskModal = ({onClose, todo}: Props) => {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault()
         const trimmedTitle = title.trim()
+        const rawLabels = extractLabelsFromDescription(description)
+        const cleanDescription = removeLabelsFromDescription(description)
 
         if (!trimmedTitle || !currentUser) return
 
         const payload = {
             text: trimmedTitle,
-            description,
+            description: cleanDescription,
             categoryId,
             deadline: deadline ? new Date(deadline).getTime() : null,
-            labels: extractLabelsFromDescription(description),
+            labels: rawLabels,
             status
         }
 
@@ -96,7 +101,7 @@ export const NewTaskModal = ({onClose, todo}: Props) => {
                                         key={label}
                                         className={`bg-purple-200 text-purple-800 text-xs px-2 py-1 rounded-full`}
                                     >
-#{label}
+                                        #{label}
                                     </span>
                                 ))}
                             </div>
@@ -127,9 +132,7 @@ export const NewTaskModal = ({onClose, todo}: Props) => {
                                 className={`bg-white rounded-xl border p-2 text-sm`}
                                 value={todo?.status || 'todo'}
                                 onChange={(e) => {
-                                    if (todo) {
-                                        updateTodo(todo.id, {status: e.target.value as Todo['status']})
-                                    }
+                                    setStatus(e.target.value as TodoStatus)
                                 }}
                                 disabled={!todo}
                             >
