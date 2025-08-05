@@ -1,4 +1,5 @@
 import type {Todo} from "../types/todo.ts"
+import {getDeadlineCountdown} from "../utils/date.ts";
 
 type Props = {
     task: Todo;
@@ -13,6 +14,7 @@ export const TaskCard = ({task, onClick}: Props) => {
             className={`bg-white dark:bg-gray-800 p-4 rounded shadow hover:bg-gray-100 transition cursor-pointer`}
         >
             <h3 className={`font-medium`}>{task.text}</h3>
+            <p className={`font-light`}>{task.description}</p>
 
             <div className={`text-sm text-gray-500 mt-1`}>
                 {task.deadline && (
@@ -29,6 +31,7 @@ export const TaskCard = ({task, onClick}: Props) => {
                         #{label}
                     </span>
                     ))}
+                    <span>{getDeadlineCountdown(task.deadline)}</span>
                 </div>
             )}
         </div>
