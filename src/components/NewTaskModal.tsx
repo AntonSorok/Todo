@@ -120,7 +120,8 @@ export const NewTaskModal = ({onClose, todo}: Props) => {
                                 onChange={e => setDeadline(e.target.value)}
                             />
                             {deadline && (<span className={`text-sm text-gray-600 mt-1`}>
-                                {getDeadlineCountdown(deadline)}
+                                {getDeadlineCountdown(deadline ? new Date(deadline).getTime() : null)}
+                                {/*ПОчинить*/}
                             </span>)}
                             <select
                                 className={`bg-white rounded-xl border p-2 text-sm`}
