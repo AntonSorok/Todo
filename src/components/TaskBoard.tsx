@@ -23,7 +23,7 @@ export const TaskBoard = () => {
     return (
         <>
             <div
-                className={`grid grid-cols-1 md:grid-cols-3 gap-4`}>
+                className={`taskBoard-bg grid grid-cols-1 md:grid-cols-3 gap-4`}>
                 {statusColumns.map(({id, label}) => (
                     <div key={id}>
                         <h2 className={`text-lg font-bold mb-2`}>{label}</h2>

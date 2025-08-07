@@ -1,7 +1,7 @@
 import {useAuth} from "./context/AuthContext.tsx";
 import AuthForm from './components/AuthForm.tsx'
 // import {TodoList} from "./components/TodoList.tsx";
-import {TodoFilter} from "./components/TodoFilters.tsx";
+// import {TodoFilter} from "./components/TodoFilters.tsx";
 // import {AddTodoForm} from "./components/AddTodoForm.tsx";
 import {TodoProvider} from "./context/TodoContext.tsx";
 import {NewTaskButton} from "./components/NewTaskButton.tsx";
@@ -24,18 +24,22 @@ function App() {
     }
 
     return (
-        <TodoProvider>
-            <Header/>
-            {/*<NewTaskModal/>*/}
-            <div className={`max-w-[1200px] h-full min-h-[500px] mb-5 mx-auto mt-8 p-4 border rounded`}>
-                <h1 className={`text-2xl font-bold mb-4`}>Todo 'Pro'</h1>
-                {/*<AddTodoForm/>*/}
-                <TodoFilter/>
-                {/*<TodoList/>*/}
-                <TaskBoard/>
-            </div>
-            <NewTaskButton/>
-        </TodoProvider>
+        <div className={`gradient-bg`}>
+            <TodoProvider>
+                <Header/>
+                {/*<NewTaskModal/>*/}
+                <div
+                    className={`taskBoard-bg h-full min-h-[500px] pb-5 mx-4 mt-8 p-4 border rounded-xl`}>
+                    <h1 className={`text-2xl font-bold mb-4`}>Todo 'Pro'</h1>
+                    {/*<AddTodoForm/>*/}
+                    {/*<TodoFilter/>*/}
+                    {/*<TodoList/>*/}
+                    <TaskBoard/>
+                </div>
+                <NewTaskButton/>
+            </TodoProvider>
+        </div>
+
 
     );
 }
