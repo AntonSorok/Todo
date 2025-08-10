@@ -77,19 +77,19 @@ export const NewTaskModal = ({onClose, todo}: Props) => {
             onClick={onClose}
             className={`fixed inset-0 bg-black/60  flex items-center justify-center z-50`}>
             <div onClick={(e) => e.stopPropagation()}
-                 className={` bg-white/10 border border-white/20 backdrop-blur-xl p-6 rounded-2xl shadow-2xl max-w-sm w-full  space-y-4 z-10 flex flex-col gap-4`}>
-                <button className={`absolute right-2 top-0 text-white text-2xl`} onClick={onClose}>x</button>
+                 className={` bg-white/10 border border-white/20 backdrop-blur-xl p-6 rounded-2xl shadow-2xl max-w-2xl mx-4 w-full  space-y-4 z-10 flex flex-col gap-4`}>
+                <button className={`absolute right-2 top-0  text-2xl`} onClick={onClose}>x</button>
                 <form onSubmit={handleSubmit} className="flex flex-col md:flex-row gap-4">
                     <div className="md:w-[65%] flex flex-col gap-4">
                         <input
-                            className={`p-2 border rounded-xl bg-white`}
+                            className={`input-auth`}
                             type="text"
                             placeholder="Название задачи"
                             value={title}
                             onChange={e => setTitle(e.target.value)}
                         />
                         <textarea
-                            className={`p-2 rounded-xl border bg-white min-h-[120px]`}
+                            className={`input-auth`}
                             name="Описание"
                             rows={5}
                             placeholder='Описание задачи'
@@ -113,7 +113,7 @@ export const NewTaskModal = ({onClose, todo}: Props) => {
                     <div className="flex flex-col gap-3 justify-between md:w-[35%]">
                         <div className="flex flex-col gap-2">
                             <select
-                                className={`bg-white rounded-xl border p-2 text-sm`}
+                                className={`input-auth`}
                                 value={categoryId}
                                 onChange={e => setCategoryId(e.target.value)}
                             >
@@ -122,7 +122,7 @@ export const NewTaskModal = ({onClose, todo}: Props) => {
                                 <option value="work">Работа</option>
                             </select>
                             <input
-                                className={`bg-white rounded-xl border p-2 text-sm`}
+                                className={`input-auth`}
                                 type="date"
                                 value={deadline}
                                 onChange={e => setDeadline(e.target.value)}
@@ -135,7 +135,7 @@ export const NewTaskModal = ({onClose, todo}: Props) => {
                                     {/*ПОчинить*/}
                             </span>)}
                             <select
-                                className={`bg-white rounded-xl border p-2 text-sm`}
+                                className={`input-auth`}
                                 value={status || 'todo'}
                                 onChange={(e) => {
                                     setStatus(e.target.value as TodoStatus)

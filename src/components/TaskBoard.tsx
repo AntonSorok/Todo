@@ -23,7 +23,7 @@ export const TaskBoard = () => {
     return (
         <>
             <div
-                className={`bg-[var(--color-primary)]/50 h-full min-h-[500px] pb-5 mx-4 mt-8 p-4 border rounded-xl shadow-2xl shadow-black`}>
+                className={`bg-white/70 h-full min-h-[500px] pb-5 mx-4 mt-8 p-4 border rounded-xl shadow-2xl shadow-black`}>
                 <h1 className={`text-2xl font-bold mb-4`}>Todo 'Pro'</h1>
                 <div
                     className={`grid grid-cols-1 md:grid-cols-3 gap-4`}>
