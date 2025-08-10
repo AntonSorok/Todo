@@ -5,6 +5,7 @@ import {extractLabelsFromDescription, removeLabelsFromDescription} from '../util
 import type {Todo, TodoStatus} from "../types/todo.ts";
 import {getDeadlineCountdown} from '../utils/date.ts'
 import Button from "./Button.tsx";
+import {Calendar, Tag} from "lucide-react";
 
 type Props = {
     onClose: () => void;
@@ -76,8 +77,8 @@ export const NewTaskModal = ({onClose, todo}: Props) => {
             onClick={onClose}
             className={`fixed inset-0 bg-black/60  flex items-center justify-center z-50`}>
             <div onClick={(e) => e.stopPropagation()}
-                 className={`bg-linear-[130deg,#371559,#7C1ED9_15%,#7C1ED9_50%,#3D1673_90%,#371559] w-full max-w-screen-md rounded-2xl p-5 relative flex flex-col gap-4 mx-4`}>
-                <button className={`absolute right-4 top-2  text-white text-2xl`} onClick={onClose}>x</button>
+                 className={` bg-white/10 border border-white/20 backdrop-blur-xl p-6 rounded-2xl shadow-2xl max-w-sm w-full  space-y-4 z-10 flex flex-col gap-4`}>
+                <button className={`absolute right-2 top-0 text-white text-2xl`} onClick={onClose}>x</button>
                 <form onSubmit={handleSubmit} className="flex flex-col md:flex-row gap-4">
                     <div className="md:w-[65%] flex flex-col gap-4">
                         <input
@@ -100,9 +101,10 @@ export const NewTaskModal = ({onClose, todo}: Props) => {
                                 {extractLabelsFromDescription(description).map((label) => (
                                     <span
                                         key={label}
-                                        className={`bg-purple-200 text-purple-800 text-xs px-2 py-1 rounded-full`}
+                                        className={`flex items-center gap-1 px-2 py-1 h-6 bg-purple-200/80 text-gray-600 text-xs rounded-full`}
                                     >
-                                        #{label}
+                                        <Tag size={12}/>
+                                        {label}
                                     </span>
                                 ))}
                             </div>
@@ -125,9 +127,12 @@ export const NewTaskModal = ({onClose, todo}: Props) => {
                                 value={deadline}
                                 onChange={e => setDeadline(e.target.value)}
                             />
-                            {deadline && (<span className={`text-sm text-gray-600 mt-1`}>
-                                {getDeadlineCountdown(deadline ? new Date(deadline).getTime() : null)}
-                                {/*ПОчинить*/}
+                            {deadline && (
+                                <span
+                                    className={`flex items-center gap-1 text-sm text-white`}>
+                                  <Calendar size={16}/>
+                                    {getDeadlineCountdown(deadline ? new Date(deadline).getTime() : null)}
+                                    {/*ПОчинить*/}
                             </span>)}
                             <select
                                 className={`bg-white rounded-xl border p-2 text-sm`}

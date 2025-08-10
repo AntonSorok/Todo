@@ -105,7 +105,6 @@
                 var(--color-gradient-start)
         );
     }
-
 }
 
 @layer utilities {
@@ -125,6 +124,7 @@
 
     .card-text-title {
         font-weight: 700;
+        text-overflow-ellipsis: var('...');
     }
 
     .card-text-desc {

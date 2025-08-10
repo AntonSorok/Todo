@@ -87,6 +87,11 @@ const AuthForm = () => {
                 </p>
 
             </form>
+            <ul className={`abg-6`}>
+                <li></li>
+                <li></li>
+                <li></li>
+            </ul>
         </div>
 
     )
