@@ -4,6 +4,7 @@ import {useAuth} from "../context/AuthContext.tsx";
 import {extractLabelsFromDescription, removeLabelsFromDescription} from '../utils/extractLabels'
 import type {Todo, TodoStatus} from "../types/todo.ts";
 import {getDeadlineCountdown} from '../utils/date.ts'
+import Button from "./Button.tsx";
 
 type Props = {
     onClose: () => void;
@@ -141,10 +142,9 @@ export const NewTaskModal = ({onClose, todo}: Props) => {
                                 <option value="done">Готово</option>
                             </select>
                         </div>
-                        <button className={`mt-4 text-lg py-2 border-2 border-[#7C1BA6] rounded-2xl bg-[#8A22F2]
-                        hover:bg-[#3D1673] hover:border-[#7C1BA6] active:bg-[#371559] text-white`}
-                                type='submit'>{todo ? 'Изменить' : 'Добавить'}
-                        </button>
+                        <Button type={'submit'} variant={'primary'}>
+                            {todo ? 'Изменить' : 'Добавить'}
+                        </Button>
                     </div>
                 </form>
             </div>

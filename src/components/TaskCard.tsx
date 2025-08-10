@@ -11,10 +11,13 @@ export const TaskCard = ({task, onClick}: Props) => {
     return (
         <div
             onClick={onClick}
-            className={`card  `}
+            className={`card drop-shadow-xl shadow-black hover:scale-101`}
         >
-            <h3 className={`font-medium`}>{task.text}</h3>
-            <p className={`font-light`}>{task.description}</p>
+            <div className={``}>
+                <h3 className={`card-text-title`}>{task.text}</h3>
+                <p className={`card-text-desc white-space-nowrap overflow-auto pb-2`}>{task.description}</p>
+            </div>
+
 
             <div className={`text-sm text-gray-500 mt-1`}>
                 {task.deadline && (

@@ -13,11 +13,69 @@
         --color-gradient-start: #371559;
         --color-gradient-mid: #7C1ED9;
         --color-gradient-end: #3D1673;
+        --color-input-border: #fda085
     }
 
 }
 
+@keyframes gradientShift {
+    0% {
+        background-position: 0 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0 50%;
+    }
+}
+
+
 @layer components {
+    .animated-bg {
+        background: linear-gradient(120deg,
+        #f6d365 0%,
+        #fda085 25%,
+        var(--color-primary) 50%,
+        #7ae0c7 75%,
+        #8ad1ff 100%);
+        background-size: 200% 200%;
+        animation: gradientShift 12s ease infinite;
+        position: fixed;
+        inset: 0;
+        z-index: 0;
+        filter: saturate(1.05);
+    }
+
+    .modal-backdrop {
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.45);
+        -webkit-backdrop-filter: blur(6px);
+        backdrop-filter: blur(6px);
+        z-index: 20;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 1rem;
+    }
+
+    .auth-modal {
+        width: 100%;
+        max-width: 520px;
+        border-radius: 1rem;
+        padding: 1.25rem;
+        background: linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(255, 255, 255, 0.92));
+        box-shadow: 0 10px 30px rgba(2, 6, 23, 0.35);
+        z-index: 30;
+        position: relative;
+    }
+
+    .input-auth {
+        @apply w-full p-2 rounded-lg bg-white/20 border border-white/30 focus:outline-none focus:ring-2 focus:ring-cyan-400;
+
+    }
+
     .btn-primary {
         @apply px-4 p-2 rounded-2xl border-2 text-white transition;
         background-color: var(--color-primary);
@@ -48,9 +106,6 @@
         );
     }
 
-    .taskBoard-bg {
-        background: #371559;
-    }
 }
 
 @layer utilities {
@@ -67,5 +122,14 @@
         padding-left: 1rem;
         padding-right: 1rem;
     }
+
+    .card-text-title {
+        font-weight: 700;
+    }
+
+    .card-text-desc {
+        font-weight: 300;
+    }
+
 
 }

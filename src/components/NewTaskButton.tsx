@@ -9,7 +9,7 @@ export const NewTaskButton = () => {
     return (
         <div
             onClick={toggleModal}
-            className="absolute right-10 bottom-15 w-15 h-15 bg-red-500 rounded-[50%] flex justify-center items-center">
+            className="btn-primary  absolute right-10 bottom-15 w-15 h-15  rounded-[50%] flex justify-center items-center">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                 <g fill='#FFFFFF'>
                     <path

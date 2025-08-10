@@ -28,14 +28,12 @@ function App() {
             <TodoProvider>
                 <Header/>
                 {/*<NewTaskModal/>*/}
-                <div
-                    className={`taskBoard-bg h-full min-h-[500px] pb-5 mx-4 mt-8 p-4 border rounded-xl`}>
-                    <h1 className={`text-2xl font-bold mb-4`}>Todo 'Pro'</h1>
-                    {/*<AddTodoForm/>*/}
-                    {/*<TodoFilter/>*/}
-                    {/*<TodoList/>*/}
-                    <TaskBoard/>
-                </div>
+
+                {/*<AddTodoForm/>*/}
+                {/*<TodoFilter/>*/}
+                {/*<TodoList/>*/}
+                <TaskBoard/>
+
                 <NewTaskButton/>
             </TodoProvider>
         </div>
