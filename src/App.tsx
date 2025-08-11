@@ -24,7 +24,7 @@ function App() {
     }
 
     return (
-        <div className={`gradient-bg`}>
+        <div className={`gradient-bg min-h-screen h-full pb-4`}>
             <TodoProvider>
                 <Header/>
                 {/*<NewTaskModal/>*/}
